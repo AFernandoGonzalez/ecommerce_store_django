@@ -69,13 +69,23 @@
 	</div> <!-- col.// -->
 	<div class="col-lg-3 col-sm-6 col-8 order-2 order-lg-3">
 				<div class="d-flex justify-content-end mb-3 mb-lg-0">
+					{% if user.is_authenticated %}
+					<div class="widget-header">
+						<small class="title text-muted">Welcome {{ user.email }}!</small>
+						<div> 
+							<a href="{% url 'users:logout' %}">Logout</a> <span class="dark-transp"> | </span>
+							<a href=""> Dashboard</a>
+						</div>
+					</div>
+					{% else %}
 					<div class="widget-header">
 						<small class="title text-muted">Welcome guest!</small>
 						<div> 
-							<a href="./signin.html">Sign in</a> <span class="dark-transp"> | </span>
-							<a href="./register.html"> Register</a>
+							<a href="{% url 'users:login' %}">Sign in</a> <span class="dark-transp"> | </span>
+							<a href="{% url 'users:register' %}"> Register</a>
 						</div>
 					</div>
+					{% endif %}
 					<a href="{% url 'carts:cart' %}" class="widget-header pl-3 ml-3">
 						<div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div>
 						<span class="badge badge-pill badge-danger notify">{{ cart_count }}</span>
@@ -86,6 +96,17 @@
 	</div> <!-- container.// -->
 </section> <!-- header-main .// -->
 
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+	<div class="container">
+		<li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+	</div>
+    
+    {% endfor %}
+</ul>
+{% endif %}
 
 
 

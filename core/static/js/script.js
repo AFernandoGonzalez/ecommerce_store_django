@@ -1,3 +1,5 @@
+
+console.log('hey its me');
 // some scripts
 
 // jquery ready start
@@ -57,4 +59,6 @@ $(document).ready(function() {
     
 }); 
 // jquery end
+
+
 

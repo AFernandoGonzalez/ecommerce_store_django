@@ -1,0 +1,13 @@
+
+{% extends 'core/base.html' %}
+{% block title %} Logout {% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+        <p class="text-center">You have been logout successfully</p>
+        <a class="btn btn-primary" href="{% url 'users:login' %}" role="button">Sign</a>
+</div>
+
+{% endblock  %}
