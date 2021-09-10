@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib.auth.forms import (AuthenticationForm, PasswordResetForm,
                                        SetPasswordForm)
-from django.db.models import fields
+
 from .models import CustomUser
 
 
@@ -17,6 +17,10 @@ class UserLoginForm(AuthenticationForm):
             'id': 'login-pwd',
         }
     ))
+
+    
+    
+
 
 class RegistrationForm(forms.ModelForm):
     

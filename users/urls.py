@@ -11,8 +11,9 @@ urlpatterns = [
     # homepage
     path('', views.homeview, name='home'),
     # auth user
-    path('login/', auth_views.LoginView.as_view(template_name='users/registration/login.html',
-                                                form_class=UserLoginForm), name='login'),
+    # path('login/', auth_views.LoginView.as_view(template_name='users/registration/login.html',
+    #                                             form_class=UserLoginForm), name='login'),
+    path('login/', views.login_view, name='login'),
     path('logout/', auth_views.LogoutView.as_view(
         template_name='users/registration/logout.html'), name='logout'),
 

@@ -8,9 +8,98 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib import messages
 
+from carts.models import Cart, CartItem
 from .models import CustomUser
 from .forms import RegistrationForm, UserEditForm
+from .forms import (UserLoginForm)
 from .tokens import account_activation_token
+from carts.views import _cart_id
+
+import requests
+
+
+from django.contrib.auth import authenticate
+
+
+
+def login_view(request):
+
+    if request.user.is_authenticated:
+        return render(request, 'users/user/dashboard.html')
+
+    if request.method == "POST":
+        form = UserLoginForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            
+            if user is not None:
+                try:
+                    cart = Cart.objects.get(cart_id=_cart_id(request))
+                    is_cart_item_exists = CartItem.objects.filter(cart=cart).exists() 
+                    if is_cart_item_exists:
+                        cart_item = CartItem.objects.filter(cart=cart)
+
+                        product_variation = []
+                        for item in cart_item:
+                            variation = item.variation.all()
+                            product_variation.append(list(variation))
+
+                        # get the cart items from the user to access his product variation
+                        cart_item = CartItem.objects.filter(user=user)
+
+                        ex_var_list = []
+                        id = []
+                        for item in cart_item:
+                            existing_variation = item.variation.all()
+                            ex_var_list.append(list(existing_variation))
+                            id.append(item.id)
+                        
+
+                        for pr in product_variation:
+                            if pr in ex_var_list:
+                                index = ex_var_list.index(pr)
+                                item_id = id[index]
+                                item = CartItem.objects.get(id=item_id)
+                                item.quantity += 1
+                                # assing the user
+                                item.user = user
+                                # save the item
+                                item.save()
+                            else:
+                                cart_item = CartItem.objects.filter(cart=cart)
+                                for item in cart_item:
+                                    item.user = user
+                                    item.save()
+
+                except:
+                    pass
+                login(request, user)
+                # messages.info(
+                #     request, f"You are now logged in as {email}.")
+                url = request.META.get('HTTP_REFERER')
+                try:
+                    query = requests.utils.urlparse(url).query
+                    # 
+                    params = dict(x.split('=') for x in query.split('&'))
+                    if 'next' in params:
+                        nextPage = params['next']
+                        return redirect(nextPage)
+                
+                except:
+                    return redirect("users:dashboard")
+            
+            else:
+                messages.error(request,"Invalid username or password.")
+        else:
+            messages.error(request,"Invalid username or password.")
+    form = UserLoginForm()
+    return render(request, "users/registration/login.html", context={"form": form})
+
+
+   
+
 
 def homeview(request):
     return render(request, 'users/home.html')
