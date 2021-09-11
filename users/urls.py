@@ -28,8 +28,8 @@ urlpatterns = [
         template_name="users/user/delete_confirm.html"), name='delete_confirmation'),
     
     # password
-    path('forgotPassword/', views.forgotPassword, name='forgotPassword'),
-    path('resetpassword_validate/<slug:uidb64>/<slug:token>/',
-         views.resetpassword_validate, name='resetpassword_validate'),
-    path('resetPassword/', views.resetPassword, name='resetPassword'),
+    # path('forgotPassword/', views.forgotPassword, name='forgotPassword'),
+    # path('resetpassword_validate/<slug:uidb64>/<slug:token>/',
+    #      views.resetpassword_validate, name='resetpassword_validate'),
+    # path('resetPassword/', views.resetPassword, name='resetPassword'),
 ]

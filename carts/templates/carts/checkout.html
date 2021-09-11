@@ -14,7 +14,7 @@
 				<div class="card">
 					<div class="card-body">
 						<h4 class="card-title mb-4">Billing Address</h4>
-						<form action="" method="POST">
+						<form action="{% url 'orders:place_order' %}" method="POST">
 							{% csrf_token %}
 							<div class="form-row">
 								<div class="col form-group">
@@ -94,10 +94,10 @@
 						<table class="table table-borderless table-shopping-cart">
 						<thead class="text-muted">
 							<tr class="small text-uppercase">
-								<th scope="col">Product</th>
-								<th scope="col" width="120">Quantity</th>
-								<th scope="col" width="120">Price</th>
-								<th scope="col" class="text-right" width="200"> </th>
+								<th scope="col" width="520">Product</th>
+								<th scope="col" width="">Quantity</th>
+								<th scope="col" width="">Price</th>
+
 							</tr>
 						</thead>
 						<tbody>
