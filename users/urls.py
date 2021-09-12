@@ -22,6 +22,11 @@ urlpatterns = [
     path('activate/<slug:uidb64>/<slug:token>/', views.account_activate, name='activate'),
     # user dashboard
     path('dashboard/', views.dashboard, name='dashboard'),
+    # orders
+    path('my_orders/', views.my_orders, name='my_orders'),
+    path('my_orders_detail/<int:order_id>/',
+         views.my_orders_detail, name='my_orders_detail'),
+    # 
     path('profile/edit/', views.edit_details, name='edit_details'),
     path('profile/delete_user/', views.delete_user, name='delete_user'),
     path('profile/delete_confirm/', TemplateView.as_view(

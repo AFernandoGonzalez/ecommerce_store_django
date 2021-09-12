@@ -74,7 +74,7 @@
 						<small class="title text-muted">Welcome {{ user.email }}!</small>
 						<div> 
 							<a href="{% url 'users:logout' %}">Logout</a> <span class="dark-transp"> | </span>
-							<a href=""> Dashboard</a>
+							<a href="{% url 'users:dashboard' %}"> Dashboard</a>
 						</div>
 					</div>
 					{% else %}

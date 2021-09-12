@@ -46,3 +46,22 @@ input:checked + label:hover, input:checked ~ label:hover, input:checked ~ label:
 .rating-star i{
     color: #0965b1;
 }
+
+
+/* product gallary */
+ul.thumb {
+    margin: 0 auto;
+    padding: 0;
+    float: left;
+}
+
+ul.thumb li{
+    list-style: none;
+    margin: 10px;
+}
+
+ul.thumb li img {
+    width: 80px;
+    height: 80px;
+    border: 1 px solid grey;
+}

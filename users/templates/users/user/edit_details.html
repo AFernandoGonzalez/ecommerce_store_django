@@ -1,16 +1,32 @@
-{% extends "core/base.html" %}
-{% block title %}Edit Profile{% endblock %}
+{% extends 'core/base.html' %}
+{% block title %} Dashboard {% endblock %}
+
 {% block content %}
 
-<div class="container-fluid">
-    <!-- <div class="row no-gutter">
-        <div class="col-md-12">
-            <div class="login d-flex align-items-center py-5">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 col-lg-7  mx-auto"> -->
 
-                <form class="account-form px-4 pt-4" method="post" enctype="multipart/form-data">
+
+
+
+<!--  -->
+<section class="section-conten padding-y bg">
+
+    <div class="container">
+        <div class="row">
+
+            {% include 'users/includes/dashboard_sidebar.html' %}
+
+            <main class="col-md-9">
+                <article class="card">
+                    <header class="card-header">
+                        <strong class="d-inline-block mr-3">Edit Your Profile</strong>
+                        
+                    </header>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <!--  -->
+                                 <form class="account-form px-4 pt-4" method="post" enctype="multipart/form-data">
 
                     {% if user_form.is_valid %}
                     <div class="alert alert-primary" role="alert">
@@ -64,12 +80,22 @@
                             class="btn btn-danger btn-block py-2 mb-4 mt-5 fw-bold w-100">Delete</button>
                     </form>
 
-                        <!-- </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-</div>
+
+                            </div>
+
+
+                        </div> <!-- row.// -->
+                    </div> <!-- card-body .// -->
+
+                </article> <!-- order-group.// -->
+            </main>
+        </div> <!-- row.// -->
+    </div>
+
+
+</section>
+
+
+
 
 {% endblock %}

@@ -1,6 +1,7 @@
 
 import os
 from pathlib import Path
+from typing import cast
 from environs import Env
 
 env = Env()
@@ -17,9 +18,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = env('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'django-eccommerce-cource-env.eba-5swj2jis.us-west-2.elasticbeanstalk.com']
+
 
 
 # Application definition
@@ -38,6 +43,8 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig',
     'carts.apps.CartsConfig',
     'orders.apps.OrdersConfig',
+    # 3rd party
+    'admin_honeypot',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
@@ -111,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/New_York'
 
 USE_I18N = True
 
@@ -137,9 +145,15 @@ LOGIN_URL = '/users/registration/login/'
 
 # smpt configuration
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_HOST = env.str('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = env.str('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = env('EMAIL_USE_TLS', cast=bool)
 EMAIL_USE_SSL = False
+
+
+# session inactivity
+SESSION_EXPIRE_SECONDS = 60  # 1 hour
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+SESSION_TIMEOUT_REDIRECT = 'users:login'

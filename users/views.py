@@ -10,6 +10,8 @@ from django.contrib import messages
 
 from carts.models import Cart, CartItem
 from .models import CustomUser
+from orders.models import Order, OrderProduct
+
 from .forms import RegistrationForm, UserEditForm
 from .forms import (UserLoginForm)
 from .tokens import account_activation_token
@@ -106,7 +108,14 @@ def homeview(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'users/user/dashboard.html', {'section': 'profile',})
+    orders = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_ordered=True)
+    orders_count = orders.count()
+
+    context = {
+        'orders_count': orders_count
+    }
+
+    return render(request, 'users/user/dashboard.html', context )
 
 
 @login_required
@@ -233,3 +242,28 @@ def resetPassword(request):
             return redirect('users:resetPassword')
     else:
         return render(request, 'users/user/resetpassword.html')
+
+
+def my_orders(request):
+    orders = Order.objects.filter(user_id=request.user, is_ordered=True).order_by('-created_at')
+    context = {
+        'orders': orders,
+    }
+    return render(request, 'users/user/my_orders.html', context)
+
+@login_required
+def my_orders_detail(request, order_id):
+    order_detail = OrderProduct.objects.filter(order__order_number=order_id)
+    order = Order.objects.get(order_number=order_id)
+
+    subtotal = 0
+
+    for i in order_detail:
+        subtotal += i.product_price * i.quantity
+
+    context = {
+        'order_detail': order_detail,
+        'order': order,
+        'subtotal': subtotal
+    }
+    return render(request, 'users/user/my_orders_detail.html', context)
