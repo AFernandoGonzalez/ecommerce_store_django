@@ -1,10 +1,13 @@
 container_commands:
-    01_migrate:
+    01_makemigrate:
+        command: "python manage.py makemigrations"
+        leader_only: true
+    02_migrate:
         command: "django-admin.py migrate"
         leader_only: true
-    02_createsuperuser:
-        command: "echo \"from users.models import CustomUser; CustomeUser.objects.create_superuser('first_name', 'last_name', '')\" | python manage.py "
+    03_createsuperuser:
+        command: "echo \"from users.models import CustomUser; CustomeUser.objects.create_superuser('email', 'user_name', 'password')\" | python manage.py "
         leader_only: true
 option_settings:
-    aws:elasticbeanstalk:application:enviroment:
+    aws:elasticbeanstalk:application:environment:
         DJANGO_SETTINGS_MODULE: ecommerce.settings
