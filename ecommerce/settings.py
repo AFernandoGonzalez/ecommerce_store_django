@@ -22,8 +22,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 DEBUG = env('DEBUG', default=True, cast=bool)
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = [
-    'django-eccommerce-cource-env.eba-5swj2jis.us-west-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['django-eccommerce-cource-env.eba-5swj2jis.us-west-2.elasticbeanstalk.com']
 
 
 
